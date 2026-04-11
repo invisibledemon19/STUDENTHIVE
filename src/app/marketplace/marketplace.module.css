@@ -1,0 +1,189 @@
+.page { padding: 100px 0 60px; min-height: 100vh; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 20px;
+  animation: fadeInUp 0.5s var(--ease-out) both;
+}
+
+.header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 6px; }
+.header p { font-size: 0.92rem; }
+
+.headerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(63, 81, 181, 0.06);
+  border: 1px solid rgba(63, 81, 181, 0.12);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-300);
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+}
+
+.controlsRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.5s var(--ease-out) 0.1s both;
+}
+
+.categoryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.5s var(--ease-out) 0.15s both;
+}
+
+.resultCount {
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  margin-bottom: 20px;
+}
+
+.itemGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.itemCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+  position: relative;
+}
+
+.itemCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(63, 81, 181, 0.25), transparent);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.itemCard:hover {
+  border-color: var(--border-default);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(63, 81, 181, 0.05);
+}
+
+.itemCard:hover::before { opacity: 1; }
+
+.itemImage {
+  height: 140px;
+  background: linear-gradient(135deg, var(--bg-surface), var(--bg-elevated));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: transform 0.3s ease;
+}
+
+.itemCard:hover .itemImage {
+  transform: scale(1.02);
+}
+
+.itemBody { padding: 20px; }
+
+.itemTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.verifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--success), #00E676);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.62rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 200, 83, 0.3);
+}
+
+.itemTitle {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.itemDesc {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.itemFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+
+.itemPrice {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary-400);
+}
+
+.sellerInfo { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.sellerName { font-size: 0.78rem; color: var(--text-secondary); }
+
+.trustBadge {
+  font-size: 0.72rem;
+  color: var(--primary-400);
+  font-weight: 600;
+}
+
+.postedTime { font-size: 0.72rem; color: var(--text-tertiary); }
+
+.modalImage {
+  height: 160px;
+  background: linear-gradient(135deg, var(--bg-surface), var(--bg-elevated));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .header { flex-direction: column; }
+  .controlsRow { flex-direction: column; }
+  .controlsRow input, .controlsRow select { max-width: 100% !important; }
+}
