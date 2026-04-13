@@ -1,6 +1,7 @@
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import CursorTrail from '@/components/CursorTrail';
+import Chatbot from '@/components/Chatbot';
 
 export const metadata = {
   title: 'StudentHive — Unified Campus Ecosystem',
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
         <main style={{ position: 'relative', zIndex: 1 }}>
           {children}
         </main>
+        <Chatbot />
       </body>
     </html>
   );
 }
+

@@ -89,14 +89,32 @@
 .itemCard:hover::before { opacity: 1; }
 
 .itemImage {
-  height: 140px;
+  height: 180px;
   background: linear-gradient(135deg, var(--bg-surface), var(--bg-elevated));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3.5rem;
   border-bottom: 1px solid var(--border-subtle);
   transition: transform 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.productPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.itemCard:hover .productPhoto {
+  transform: scale(1.06);
+}
+
+.categoryEmoji {
+  font-size: 3.5rem;
+  line-height: 1;
+  opacity: 0.7;
 }
 
 .itemCard:hover .itemImage {
@@ -172,14 +190,27 @@
 .postedTime { font-size: 0.72rem; color: var(--text-tertiary); }
 
 .modalImage {
-  height: 160px;
+  height: 220px;
   background: linear-gradient(135deg, var(--bg-surface), var(--bg-elevated));
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 4rem;
   margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.modalProductPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.modalCategoryEmoji {
+  font-size: 4rem;
+  line-height: 1;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {

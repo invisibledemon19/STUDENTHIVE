@@ -1,12 +1,39 @@
 import { NextResponse } from 'next/server';
-const resources = [
-  { id:1, name:'Computer Lab A', type:'lab', building:'Tech Block', floor:'2nd', capacity:40, amenities:['Projector','AC','Wi-Fi','Whiteboard'], status:'active' },
-  { id:2, name:'Computer Lab B', type:'lab', building:'Tech Block', floor:'2nd', capacity:35, amenities:['Projector','AC','Wi-Fi'], status:'active' },
-  { id:3, name:'Physics Lab', type:'lab', building:'Science Block', floor:'1st', capacity:30, amenities:['AC','Instruments'], status:'active' },
-  { id:4, name:'Chemistry Lab', type:'lab', building:'Science Block', floor:'1st', capacity:25, amenities:['AC','Fume Hood'], status:'active' },
-  { id:5, name:'Electronics Lab', type:'lab', building:'Tech Block', floor:'3rd', capacity:30, amenities:['Oscilloscopes','AC'], status:'active' },
-  { id:11, name:'Main Auditorium', type:'hall', building:'Central Block', floor:'Ground', capacity:500, amenities:['Projector','Sound System','Stage'], status:'active' },
-  { id:12, name:'Mini Auditorium', type:'hall', building:'Central Block', floor:'1st', capacity:150, amenities:['Projector','Sound System'], status:'active' },
-  { id:13, name:'Conference Hall', type:'hall', building:'Admin Block', floor:'3rd', capacity:80, amenities:['Video Conf','Whiteboard'], status:'active' },
-];
-export async function GET() { return NextResponse.json({ resources }); }
+import { readDatabase } from '@/lib/server/database';
+import { serverError } from '@/lib/server/http';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+export async function GET(request) {
+  try {
+    const url = new URL(request.url);
+    const type = url.searchParams.get('type');
+    const search = (url.searchParams.get('search') || '').trim().toLowerCase();
+    const status = url.searchParams.get('status');
+
+    const db = await readDatabase();
+    let resources = [...db.resources];
+
+    if (type && type !== 'all') {
+      resources = resources.filter((entry) => entry.type === type);
+    }
+
+    if (status && status !== 'all') {
+      resources = resources.filter((entry) => entry.status === status);
+    }
+
+    if (search) {
+      resources = resources.filter(
+        (entry) =>
+          entry.name.toLowerCase().includes(search) ||
+          entry.building.toLowerCase().includes(search)
+      );
+    }
+
+    return NextResponse.json({ success: true, resources });
+  } catch (error) {
+    console.error('resources GET failure', error);
+    return serverError('Unable to fetch resources right now');
+  }
+}

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from './dashboard.module.css';
+import { apiRequest } from '@/lib/client/api';
+import { clearSession, getStoredUser } from '@/lib/client/session';
 
 const resourceData = [
   { id: 1, name: 'Computer Lab A', type: 'lab', capacity: 40, status: 'available' },
@@ -31,18 +33,36 @@ const upcomingBookings = [
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => getStoredUser());
   const [currentTime, setCurrentTime] = useState(new Date());
+  const userId = user?.id;
 
   useEffect(() => {
-    const userData = localStorage.getItem('studenthive_user');
-    if (!userData) { router.push('/login'); return; }
-    setUser(JSON.parse(userData));
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, [router]);
+    if (!userId) {
+      router.push('/login');
+      return undefined;
+    }
 
-  const handleLogout = () => { localStorage.removeItem('studenthive_user'); router.push('/'); };
+    let mounted = true;
+    apiRequest('/api/auth/me', { requireAuth: true })
+      .then((response) => {
+        if (mounted) {
+          setUser(response.user);
+        }
+      })
+      .catch(() => {
+        clearSession();
+        router.push('/login');
+      });
+
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => {
+      mounted = false;
+      clearInterval(timer);
+    };
+  }, [router, userId]);
+
+  const handleLogout = () => { clearSession(); router.push('/'); };
   if (!user) return null;
 
   const availableCount = resourceData.filter(r => r.status === 'available').length;
