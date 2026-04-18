@@ -7,7 +7,7 @@ import * as THREE from 'three';
 /* ── Particle Field with slow drift ── */
 function ParticleField({ count = 600 }) {
   const mesh = useRef();
-  const positions = useMemo(() => {
+  const [positions] = useState(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       arr[i * 3] = (Math.random() - 0.5) * 24;
@@ -15,9 +15,9 @@ function ParticleField({ count = 600 }) {
       arr[i * 3 + 2] = (Math.random() - 0.5) * 24;
     }
     return arr;
-  }, [count]);
+  });
 
-  const colors = useMemo(() => {
+  const [colors] = useState(() => {
     const arr = new Float32Array(count * 3);
     const amber = new THREE.Color('#FFC107');
     const indigo = new THREE.Color('#5C6BC0');
@@ -30,7 +30,7 @@ function ParticleField({ count = 600 }) {
       arr[i * 3 + 2] = c.b;
     }
     return arr;
-  }, [count]);
+  });
 
   useFrame(({ clock }) => {
     if (mesh.current) {

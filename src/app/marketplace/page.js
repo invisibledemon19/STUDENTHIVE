@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { useState, useEffect, useMemo } from 'react';
 import styles from './marketplace.module.css';
